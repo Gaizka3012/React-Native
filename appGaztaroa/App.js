@@ -6,16 +6,16 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import Campobase from './componentes/CampobaseComponent';
 
 export default function App() {
- return (
- <SafeAreaProvider>
- <PaperProvider>
- <View style={{ flex: 1 }}>
- <Campobase />
- <StatusBar style="auto" />
- </View>
- </PaperProvider>
- </SafeAreaProvider>
- );
+  return (
+    <SafeAreaProvider>
+      <PaperProvider>
+        <View style={{ flex: 1 }}>
+          <Campobase />
+          <StatusBar style="auto" />
+        </View>
+      </PaperProvider>
+    </SafeAreaProvider>
+  );
 }
 
 /* const styles = StyleSheet.create({
