@@ -9,6 +9,8 @@ import Constants from 'expo-constants';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import Contacto from './ContactoComponent';
+import QuienesSomos from './QuienesSomosComponent';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -83,6 +85,48 @@ class Campobase extends Component {
     );
   };
 
+  ContactoNavegador = () => {
+    return (
+      <Stack.Navigator
+        initialRouteName="Contacto"
+        screenOptions={{
+          headerTintColor: '#fff',
+          headerStyle: { backgroundColor: '#015afc' },
+          headerTitleStyle: { color: '#fff' },
+        }}
+      >
+        <Stack.Screen
+          name="Contacto"
+          component={Contacto}
+          options={{
+            title: 'Contacto',
+          }}
+        />
+      </Stack.Navigator>
+    );
+  };
+
+  QuienesSomosNavegador = () => {
+    return (
+      <Stack.Navigator
+        initialRouteName="QuienesSomos"
+        screenOptions={{
+          headerTintColor: '#fff',
+          headerStyle: { backgroundColor: '#015afc' },
+          headerTitleStyle: { color: '#fff' },
+        }}
+      >
+        <Stack.Screen
+          name="QuienesSomos"
+          component={QuienesSomos}
+          options={{
+            title: 'Quiénes Somos',
+          }}
+        />
+      </Stack.Navigator>
+    );
+  };
+
   DrawerNavegador = () => {
     return (
       <Drawer.Navigator
@@ -99,12 +143,21 @@ class Campobase extends Component {
           component={this.HomeNavegador}
         />
         <Drawer.Screen
+          name="Quiénes somos"
+          component={this.QuienesSomosNavegador}
+        />
+        <Drawer.Screen
           name="Calendario"
           component={this.CalendarioNavegador}
+        />
+        <Drawer.Screen
+          name="Contacto"
+          component={this.ContactoNavegador}
         />
       </Drawer.Navigator>
     );
   };
+
 
   render() {
     return (
