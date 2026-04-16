@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView, FlatList } from 'react-native';
-//import { Card, List, } from 'react-native-paper';
 import { ACTIVIDADES } from '../comun/actividades';
 import { Image } from 'react-native';
 import { Card, List, Divider } from 'react-native-paper';
