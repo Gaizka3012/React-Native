@@ -1,9 +1,8 @@
 import { Component } from 'react';
-import { View, StyleSheet, ImageBackground } from 'react-native';
-import { Card, Text } from 'react-native-paper';
+import { View, StyleSheet, ImageBackground, ScrollView } from 'react-native';
+import { Card, Text, IconButton } from 'react-native-paper';
 import { EXCURSIONES } from '../comun/excursiones';
-
-
+import { COMENTARIOS } from '../comun/comentarios';
 
 function RenderExcursion(props) {
   const excursion = props.excursion;
@@ -27,6 +26,18 @@ function RenderExcursion(props) {
           </Text>
         </Card.Content>
 
+        <View style={styles.iconoContainer}>
+          <IconButton
+            icon={props.favorita ? 'heart' : 'heart-outline'}
+            size={28}
+            onPress={() =>
+              props.favorita
+                ? console.log('Ya es favorita')
+                : props.onPress()
+            }
+          />
+        </View>
+
       </Card>
     );
   } else {
@@ -34,21 +45,66 @@ function RenderExcursion(props) {
   }
 }
 
+function RenderComentario(props) {
+  const comentarios = props.comentarios;
+
+  return (
+    <Card style={styles.card}>
+      <Card.Title title="Comentarios" />
+
+      <Card.Content>
+        {comentarios.map((comentario) => (
+          <View key={comentario.id}>
+            <Text>{comentario.comentario}</Text>
+            <Text>Valoración: {comentario.valoracion} Estrellas</Text>
+            <Text>
+              {comentario.autor} - {new Date(comentario.dia).toLocaleDateString()}
+            </Text>
+          </View>
+        ))}
+      </Card.Content>
+
+    </Card>
+  );
+}
+
 class DetalleExcursion extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      excursiones: EXCURSIONES
+      excursiones: EXCURSIONES,
+      comentarios: COMENTARIOS,
+      favoritos: []
     };
   }
-
+  marcarFavorito(excursionId) {
+    this.setState({
+      favoritos: this.state.favoritos.concat(excursionId)
+    });
+  }
+ 
   render() {
     const { excursionId } = this.props.route.params;
 
-    return <RenderExcursion excursion={this.state.excursiones[+excursionId]} />;
+    return (
+      <ScrollView>
+
+        <RenderExcursion
+          excursion={this.state.excursiones[+excursionId]}
+          favorita={this.state.favoritos.some(el => el === excursionId)}
+          onPress={() => this.marcarFavorito(excursionId)}
+        />
+
+        <RenderComentario
+          comentarios={this.state.comentarios.filter(
+            (comentario) => comentario.excursionId === excursionId
+          )}
+        />
+
+      </ScrollView>
+    );
   }
 }
-
 
 const styles = StyleSheet.create({
   card: {
@@ -69,6 +125,10 @@ const styles = StyleSheet.create({
   descripcion: {
     marginTop: 20,
     marginBottom: 20,
+  },
+  iconoContainer: {
+    alignItems: 'center',
+    marginBottom: 8,
   },
 });
 
