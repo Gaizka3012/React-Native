@@ -3,6 +3,7 @@ import { View, Text, ScrollView, FlatList } from 'react-native';
 import { ACTIVIDADES } from '../comun/actividades';
 import { Image } from 'react-native';
 import { Card, List, Divider } from 'react-native-paper';
+import { baseUrl } from '../comun/comun';
 
 const Historia = () => {
   return (
@@ -46,7 +47,8 @@ class QuienesSomos extends Component {
           description={item.descripcion}
           left={() => (
             <Image
-              source={require('./imagenes/40Años.png')}
+              //source={require('./imagenes/40Años.png')}
+              source={{ uri: baseUrl + item.imagen }}
               style={{ width: 40, height: 40, marginTop: 8 }}
             />
           )}
@@ -81,7 +83,7 @@ class QuienesSomos extends Component {
                         left={() => (
                           <View style={{ justifyContent: 'center' }}>
                             <Image
-                              source={require('./imagenes/40Años.png')}
+                              source={{ uri: baseUrl + item.imagen }}
                               style={{ width: 40, height: 40 }}
                             />
                           </View>
