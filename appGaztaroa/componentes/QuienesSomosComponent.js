@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView, FlatList } from 'react-native';
-import { ACTIVIDADES } from '../comun/actividades';
 import { Image } from 'react-native';
 import { Card, List, Divider } from 'react-native-paper';
 import { baseUrl } from '../comun/comun';
+import { connect } from 'react-redux';
 
 const Historia = () => {
   return (
@@ -47,7 +47,6 @@ class QuienesSomos extends Component {
           description={item.descripcion}
           left={() => (
             <Image
-              //source={require('./imagenes/40Años.png')}
               source={{ uri: baseUrl + item.imagen }}
               style={{ width: 40, height: 40, marginTop: 8 }}
             />
@@ -59,7 +58,7 @@ class QuienesSomos extends Component {
     return (
       <View style={{ flex: 1, margin: 20 }}>
         <FlatList
-          data={ACTIVIDADES}
+          data={this.props.actividades.actividades}
           keyExtractor={item => item.id.toString()}
 
           ListHeaderComponent={
@@ -73,7 +72,7 @@ class QuienesSomos extends Component {
                 />
                 <Card.Content>
 
-                  {ACTIVIDADES.map((item, index) => (
+                  {this.props.actividades.actividades.map((item, index) => (
                     <View key={item.id}>
 
                       <List.Item
@@ -89,7 +88,7 @@ class QuienesSomos extends Component {
                           </View>
                         )}
                       />
-                      {index !== ACTIVIDADES.length - 1 && <Divider />}
+                      {index !== this.props.actividades.actividades.length - 1 && <Divider />}
                     </View>
                   ))}
 
@@ -104,4 +103,8 @@ class QuienesSomos extends Component {
   }
 }
 
-export default QuienesSomos;
+const mapStateToProps = (state) => ({
+  actividades: state.actividades,
+});
+
+export default connect(mapStateToProps)(QuienesSomos);

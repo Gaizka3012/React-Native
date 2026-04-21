@@ -3,7 +3,6 @@ import { Component } from 'react';
 import Calendario from './CalendarioComponent';
 import DetalleExcursion from './DetalleExcursionComponent';
 import Home from './HomeComponent';
-import { EXCURSIONES } from '../comun/excursiones';
 import { Platform, View, StyleSheet, Image, Text, Pressable } from 'react-native';
 import Constants from 'expo-constants';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
@@ -13,7 +12,9 @@ import Contacto from './ContactoComponent';
 import QuienesSomos from './QuienesSomosComponent';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { colorGaztaroaClaro,colorGaztaroaOscuro } from '../comun/comun'; 
+import { colorGaztaroaClaro, colorGaztaroaOscuro } from '../comun/comun';
+import { connect } from 'react-redux';
+import { fetchExcursiones, fetchComentarios, fetchCabeceras, fetchActividades } from '../redux/ActionCreators';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -54,11 +55,11 @@ function CustomDrawerContent(props) {
   );
 }
 class Campobase extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      excursiones: EXCURSIONES,
-    };
+  componentDidMount() {
+    this.props.fetchExcursiones();
+    this.props.fetchComentarios();
+    this.props.fetchCabeceras();
+    this.props.fetchActividades();
   }
 
   menuHeaderOptions = (title, navigation) => ({
@@ -76,7 +77,7 @@ class Campobase extends Component {
         initialRouteName="Home"
         screenOptions={{
           headerTintColor: '#fff',
-          headerStyle: { backgroundColor:colorGaztaroaOscuro },
+          headerStyle: { backgroundColor: colorGaztaroaOscuro },
           headerTitleStyle: { color: '#fff' },
         }}
       >
@@ -109,7 +110,7 @@ class Campobase extends Component {
           {(props) => (
             <Calendario
               {...props}
-              excursiones={this.state.excursiones}
+              excursiones={this.props.excursiones.excursiones}
             />
           )}
         </Stack.Screen>
@@ -124,7 +125,7 @@ class Campobase extends Component {
           {(props) => (
             <DetalleExcursion
               {...props}
-              excursiones={this.state.excursiones}
+              excursiones={this.props.excursiones.excursiones}
             />
           )}
         </Stack.Screen>
@@ -138,7 +139,7 @@ class Campobase extends Component {
         initialRouteName="Contacto"
         screenOptions={{
           headerTintColor: '#fff',
-          headerStyle: { backgroundColor: colorGaztaroaOscuro},
+          headerStyle: { backgroundColor: colorGaztaroaOscuro },
           headerTitleStyle: { color: '#fff' },
         }}
       >
@@ -278,4 +279,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Campobase;
+
+const mapStateToProps = (state) => ({
+  excursiones: state.excursiones,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchExcursiones: () => dispatch(fetchExcursiones()),
+  fetchComentarios: () => dispatch(fetchComentarios()),
+  fetchCabeceras:   () => dispatch(fetchCabeceras()),
+  fetchActividades: () => dispatch(fetchActividades()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Campobase);
