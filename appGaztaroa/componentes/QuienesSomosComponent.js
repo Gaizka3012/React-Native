@@ -72,25 +72,31 @@ class QuienesSomos extends Component {
                 />
                 <Card.Content>
 
-                  {this.props.actividades.actividades.map((item, index) => (
-                    <View key={item.id}>
+                  {this.props.actividades.isLoading ? (
+                    <IndicadorActividad />
+                  ) : this.props.actividades.errMess ? (
+                    <Text>{this.props.actividades.errMess}</Text>
+                  ) : (
+                    this.props.actividades.actividades.map((item, index) => (
+                      <View key={item.id}>
 
-                      <List.Item
-                        title={item.nombre}
-                        description={item.descripcion}
-                        descriptionNumberOfLines={0}
-                        left={() => (
-                          <View style={{ justifyContent: 'center' }}>
-                            <Image
-                              source={{ uri: baseUrl + item.imagen }}
-                              style={{ width: 40, height: 40 }}
-                            />
-                          </View>
-                        )}
-                      />
-                      {index !== this.props.actividades.actividades.length - 1 && <Divider />}
-                    </View>
-                  ))}
+                        <List.Item
+                          title={item.nombre}
+                          description={item.descripcion}
+                          descriptionNumberOfLines={0}
+                          left={() => (
+                            <View style={{ justifyContent: 'center' }}>
+                              <Image
+                                source={{ uri: baseUrl + item.imagen }}
+                                style={{ width: 40, height: 40 }}
+                              />
+                            </View>
+                          )}
+                        />
+                        {index !== this.props.actividades.actividades.length - 1 && <Divider />}
+                      </View>
+                    ))
+                    )}
 
                 </Card.Content>
               </Card>
